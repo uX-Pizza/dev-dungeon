@@ -1,7 +1,12 @@
 package entities.levercommands;
 
+import core.Game;
+import core.level.Tile;
+import core.level.elements.tile.PitTile;
 import core.level.utils.Coordinate;
 import utils.ICommand;
+
+import java.util.List;
 
 /**
  * The BridgeControlCommand class is responsible for controlling the bridge in the Bridge Guard
@@ -32,7 +37,12 @@ public class BridgeControlCommand implements ICommand {
    */
   @Override
   public void execute() {
-    // TODO: Implement bridge raising
+      List<Tile> tiles = Game.currentLevel().tilesInArea(topLeft, bottomRight);
+      for (Tile t : tiles) {
+          if (t instanceof PitTile p) {
+              p.open();
+          }
+      }
   }
 
   /**
@@ -43,6 +53,11 @@ public class BridgeControlCommand implements ICommand {
    */
   @Override
   public void undo() {
-    // TODO: Implement bridge lowering
+      List<Tile> tiles = Game.currentLevel().tilesInArea(topLeft, bottomRight);
+      for (Tile t : tiles) {
+          if (t instanceof PitTile p) {
+              p.close();
+          }
+      }
   }
 }
